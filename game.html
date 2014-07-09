@@ -1,0 +1,302 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<style type="text/css">
+	body {
+		font-family: Tahoma, Arial, sans-serif;
+	}
+	div {
+		width: 100px;
+		height: 100px;
+		display: inline-block;
+		background-color: #7b9aaf;
+		margin-left: 10px; 	
+		position: relative;
+	}
+	#main {
+		width: 450px;
+		height: 570px; 	
+		display: block;
+		position: relative;
+		background-color: #00799d;
+		padding-top: 10px;
+		left: 50%;
+		margin-left: -225px;
+	}
+	#InfoField {
+		background-color: #83b5c1;
+		width: 430px;
+		height: 150px;
+		position: relative;
+	}
+	button{
+		height: 50px;
+		width: 120px;
+		margin-right: 20px;
+		position: relative;
+		top: 50px;
+		left: 85px;		
+		font-size: 18px;
+		font: white;
+		outline: 0;
+		padding: 5px 12px;
+		color: #9fa8b0;
+		font-weight: bold;
+		text-shadow: 1px 1px #1f272b;
+		border: 1px solid #1c252b;
+		border-radius: 3px;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		background: #232B30; /* old browsers */
+		background: -moz-linear-gradient(top, #3D4850 3%, #313d45 4%, #232B30 100%); /* firefox */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(3%,#3D4850), color-stop(4%,#313d45), color-stop(100%,#232B30)); /* webkit */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3D4850', endColorstr='#232B30',GradientType=0 ); /* ie */
+		box-shadow: 1px 1px 1px rgba(0,0,0,0.2); /* CSS3 */
+		-moz-box-shadow: 1px 1px 1px rgba(0,0,0,0.2); /* Firefox */
+		-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.2); /* Safari, Chrome */
+	}
+	
+	button:hover {
+    color: #fff;
+    background: #4C5A64; /* old browsers */
+    background: -moz-linear-gradient(top, #4C5A64 3%, #404F5A 4%, #2E3940 100%); /* firefox */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(3%,#4C5A64), color-stop(4%,#404F5A), color-stop(100%,#2E3940)); /* webkit */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4C5A64', endColorstr='#2E3940',GradientType=0 ); /* ie */
+	}
+	
+	button:active {
+    background-position: 0 top;
+    position: relative;
+    color: #fff;
+    padding: 6px 12px 4px;
+    background: #20282D; /* old browsers */
+    background: -moz-linear-gradient(top, #20282D 3%, #252E34 51%, #222A30 100%); /* firefox */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(3%,#20282D), color-stop(51%,#252E34), color-stop(100%,#222A30)); /* webkit */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#20282D', endColorstr='#222A30',GradientType=0 ); /* ie */
+    -moz-box-shadow: 1px 1px 1px rgba(255,255,255,0.1); /* Firefox */
+    -webkit-box-shadow: 1px 1px 1px rgba(255,255,255,0.1); /* Safari, Chrome */
+    box-shadow: 1px 1px 1px rgba(255,255,255,0.1); /* CSS3 */
+	}
+	
+	p {
+		margin-top: -20px;
+		text-align: center;
+		font-size: 20px;
+	}
+	h1 {
+		text-align: center;
+		font-size: 4em;
+	}	
+	
+	
+	.Random1 {
+		background-color: #0099FF;
+	}
+	.Random2 {
+		background-color: #FFCC33;
+	}
+	.Random3 {
+		background-color: #009900;
+	}
+	.Random4 {
+		background-color: #FFFFCC;
+	}
+	.Random5 {
+		background-color: #99CCFF;
+	}
+	.Random6 {
+		background-color: #FF99FF;
+	}
+	.Random7 {
+		background-color: #FF6666;
+	}
+	.Random8 {
+		background-color: #99FF99;
+	}	
+	#WinField {
+		width: 98%;
+		margin-top: 10px;
+		background-color: white;	
+	}
+	
+	#WinField h1 {
+		margin-top: 10px;
+	}
+	
+	#WinField div {
+		background-color: white;
+	}
+	
+	</style>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script>
+	
+		// what class have first opened square
+		var CheckClass='';
+		
+		// id of the first opened square
+		var OpenedSquare=''; 
+		
+		// id of the second opened square
+		var currentObjId='';
+		
+		// matrix with real class names of the squares
+		var realColour = {
+			"square11": "",
+			"square12": "",
+			"square13": "",
+			"square14": "",
+			"square21": "",
+			"square22": "",
+			"square23": "",
+			"square24": "",
+			"square31": "",
+			"square32": "",
+			"square33": "",
+			"square34": "",
+			"square41": "",
+			"square42": "",
+			"square43": "",
+			"square44": ""
+		}; 
+		
+		var CurrentClass="";
+		
+		var SquareNumber=0;
+		
+		var WinNumber=0;
+		
+		// random for choosing colours
+		function getRandomInt(){
+			return Math.floor(Math.random() * (16 - 1 + 1)) + 1;
+		} 
+		
+		
+		// Start game, give all the squares some colours
+		function GameStart() {
+		//make all squares grey and return bases classes + erase realColour matrix 
+			for (var i=1; i<5; i++){
+			for (var j=1; j<5; j++) {
+			document.getElementById("square"+i+j).className ="";
+			$("#square"+i+j).addClass('GameSquare available');
+			document.getElementById("square"+i+j).backgroundColor="gray";
+			realColour["square"+i+j]="";
+			}
+			}
+		document.getElementById("WinField").innerHTML="";
+		WinNumber=0;	
+		var colourArray = new Array (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16);
+			for (var i=1; i<5; i++){
+			for (var j=1; j<5; j++){
+				while (realColour["square"+i+j]=="") {
+				var colourNumber=getRandomInt();
+				if (colourArray.indexOf(colourNumber)>(-1)){	
+					colourArray.splice(colourArray.indexOf(colourNumber),1);
+					colourNumber=Math.ceil(colourNumber/2);
+					realColour["square"+i+j]="Random"+colourNumber;
+				} 						
+				}
+		}
+		}
+		} 
+		
+		
+		// On second and other starts 
+		function GameRestart() {
+			GameStart();
+		} 
+		
+		
+		// show for 3 second colours of every square
+		function EraseAll() {
+			for (var i=1; i<5; i++){
+			for (var j=1; j<5; j++) {
+			if ( $("#square"+i+j).hasClass('available')){ 
+				document.getElementById("square"+i+j).className ="";
+				$("#square"+i+j).addClass('GameSquare available');
+				}
+				}
+			}
+		};
+		
+		// shows colours of all squares for 5 seconds
+		function GameHelp() {
+			for (var i=1; i<5; i++){
+			for (var j=1; j<5; j++) {
+			if ($("#square"+i+j).hasClass('GameSquare')) {
+				$("#square"+i+j).removeClass('GameSquare');
+				$("#square"+i+j).addClass(realColour["square"+i+j]);
+			}
+			}
+			}
+		setTimeout (EraseAll, 3000);
+		}
+		
+		// checking are the squares the same - two squares are opened
+		function CheckColour() {
+			if ($(currentObjId).hasClass(CheckClass)) {
+					$(currentObjId).removeClass('available');
+					$(OpenedSquare).removeClass('available');
+					WinNumber=WinNumber+1;
+				}
+				else {
+					$(currentObjId).removeClass(CurrentClass);
+					$(currentObjId).addClass('GameSquare');
+					$(OpenedSquare).removeClass(CheckClass);
+					$(OpenedSquare).addClass('GameSquare');
+				}
+				CheckClass=''; 
+				OpenedSquare='';
+				currentObjId='';
+				CurrentClass='';
+				SquareNumber=0;
+				
+				if (WinNumber>7) {
+					document.getElementById("WinField").innerHTML="<h1>You win! You are a HERO!</h1>";
+				}
+		}  
+		
+		// is done when user click on any square in the game 	
+		function SquareClck() {
+			if (SquareNumber<2) {
+			if ( $("#"+event.target.id).hasClass('GameSquare')){
+				$("#"+event.target.id).removeClass('GameSquare');
+				$("#"+event.target.id).addClass(realColour[event.target.id])				
+			
+			if (CheckClass=='') {
+				CheckClass=realColour[event.target.id];
+				OpenedSquare="#"+event.target.id;
+				SquareNumber=1;
+				
+			}
+			else {
+				CurrentClass=realColour[event.target.id];
+				currentObjId="#"+event.target.id;
+				setTimeout(CheckColour, 700);
+				SquareNumber=2;
+			}
+			}
+			}
+		}  
+		
+		// start at the window load
+		window.onload = function () {
+			GameStart();
+		}
+	</script>
+	</head>
+	<body>
+	<h1>Train your mind</h1>
+	<p>Find two squares with same colours</p>
+		<div id="main">
+			<div class="GameSquare available" onclick="SquareClck()" id="square11"></div><div class="GameSquare available" onclick="SquareClck()" id="square12"></div><div class="GameSquare available" onclick="SquareClck()" id="square13"></div><div class="GameSquare available" onclick="SquareClck()" id="square14"></div><br/>
+			<div class="GameSquare available" onclick="SquareClck()" id="square21"></div><div class="GameSquare available" onclick="SquareClck()" id="square22"></div><div class="GameSquare available" onclick="SquareClck()" id="square23"></div><div class="GameSquare available" onclick="SquareClck()" id="square24"></div> <br/>
+			<div class="GameSquare available" onclick="SquareClck()" id="square31"></div><div class="GameSquare available" onclick="SquareClck()" id="square32"></div><div class="GameSquare available" onclick="SquareClck()" id="square33"></div><div class="GameSquare available" onclick="SquareClck()" id="square34"></div> <br/>
+			<div class="GameSquare available" onclick="SquareClck()" id="square41"></div><div class="GameSquare available" onclick="SquareClck()" id="square42"></div><div class="GameSquare available" onclick="SquareClck()" id="square43"></div><div class="GameSquare available" onclick="SquareClck()" id="square44"></div> <br/>
+			<div id="InfoField">
+			<button id="help" onclick="GameHelp()">Help</button><button id="restart" onclick="GameRestart()">Restart</button>
+			</div>
+		</div>
+		<div id="WinField"><div>
+	</body>
+</html>
