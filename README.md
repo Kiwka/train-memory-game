@@ -1,5 +1,4 @@
 # Game "Train your mind"
-=================
 
 ### Rules:
 1. Start from the clicking on the any square on the playfield. 
