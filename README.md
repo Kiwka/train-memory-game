@@ -2,6 +2,7 @@ Game "Train your mind"
 =================
 
 Rules:
+
 1) Start from the clicking on the any square on the playfield. 
 
 2) You need to find two squares with the same colour on the playfield. When you find them, they will not turn off after openning. 
